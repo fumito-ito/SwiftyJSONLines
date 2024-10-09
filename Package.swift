@@ -4,21 +4,25 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftyJSONL",
+    name: "SwiftyJSONLines",
+    platforms: [
+        .iOS(.v12),
+        .macOS(.v12)
+    ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "SwiftyJSONL",
-            targets: ["SwiftyJSONL"]),
+            name: "SwiftyJSONLines",
+            targets: ["SwiftyJSONLines"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "SwiftyJSONL"),
+            name: "SwiftyJSONLines"),
         .testTarget(
-            name: "SwiftyJSONLTests",
-            dependencies: ["SwiftyJSONL"]
+            name: "SwiftyJSONLinesTests",
+            dependencies: ["SwiftyJSONLines"]
         ),
     ]
 )
