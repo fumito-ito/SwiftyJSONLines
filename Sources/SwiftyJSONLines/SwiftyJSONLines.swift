@@ -34,7 +34,8 @@ public struct JSONLines {
     ///   - encoding: The `String.Encoding` used to decode the `Data` into a `String`.
     ///     The default value is `.utf8`.
     ///
-    /// - Throws: An error if any line cannot be encoded into `Data` or if the conversion of a line to a JSON object fails.
+    /// - Throws: An error if any line cannot be encoded into `Data`
+    /// or if the conversion of a line to a JSON object fails.
     public init(_ contents: String, encoding: String.Encoding = .utf8) throws {
         self.lines = try contents
             .split(separator: "\n")
@@ -68,7 +69,7 @@ public struct JSONLines {
     ///   or if the data cannot be decoded into a string using the specified encoding.
     /// 
     public init(contentsOf url: URL, encoding: String.Encoding = .utf8) async throws {
-        let (data, response) = try await URLSession.shared.data(from: url)
+        let (data, _) = try await URLSession.shared.data(from: url)
         guard let contents = String(data: data, encoding: encoding) else {
             throw URLError(.cannotDecodeContentData)
         }
