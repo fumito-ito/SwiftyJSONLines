@@ -27,10 +27,20 @@ let package = Package(
 ## Usage
 
 ```swift
+// You can parse and iterate json objects from jsonl format string.
 let jsonlines = try JSONLines(jsonString)
 for json in jsonlines.lines {
     print(json) // => [String: Any] object
 }
+
+// Ofcourse, you can get json lines from data,
+let jsonlinesFromData = try JSONLines(data: jsonStringData)
+
+// local file...
+let jsonlinesFromLocalPath = try JSONLines(contentsOfFile: "/path/to/example.jsonl")
+
+// and remote file
+let jsonlinesFromRemoteFile = try await JSONLines(contensOf: URL(string: "https://example.com/path/to/example.jsonl"))
 ```
 
 ## Contributing
