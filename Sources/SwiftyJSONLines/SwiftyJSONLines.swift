@@ -19,7 +19,7 @@ public struct JSONLines {
     /// ```swift
     /// let objects: [MyObject] = try getObjects()
     /// ```
-    public func toObjects<T: Codable>(with decoder: JSONDecoder = JSONDecoder()) throws -> [T] {
+    public func toObjects<T: Decodable>(with decoder: JSONDecoder = JSONDecoder()) throws -> [T] {
         try dataLines.map { try decoder.decode(T.self, from: $0) }
     }
 
