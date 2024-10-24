@@ -29,7 +29,7 @@ let package = Package(
 ```swift
 // You can parse and iterate json objects from jsonl format string.
 let jsonlines = try JSONLines(jsonString)
-for json in jsonlines.lines {
+for json in jsonlines.toDictionaries() {
     print(json) // => [String: Any] object
 }
 
