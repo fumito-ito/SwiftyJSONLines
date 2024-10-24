@@ -4,7 +4,37 @@
 import Foundation
 
 public struct JSONLines {
-    public let lines: [[String: Any]]
+    public let lines: [String]
+
+    private let dataLines: [Data]
+
+    /// Decodes an array of objects from JSON lines using the provided `JSONDecoder`.
+    ///
+    /// - Parameters:
+    ///   - decoder: A `JSONDecoder` instance to use for decoding the objects. The default value is `JSONDecoder()`.
+    /// - Returns: An array of decoded objects of type `T`.
+    /// - Throws: An error if the decoding process fails.
+    ///
+    /// Example usage:
+    /// ```swift
+    /// let objects: [MyObject] = try getObjects()
+    /// ```
+    public func toObjects<T: Codable>(with decoder: JSONDecoder = JSONDecoder()) throws -> [T] {
+        try dataLines.map { try decoder.decode(T.self, from: $0) }
+    }
+
+    /// Parses  JSON lines into an array of dictionaries, where each dictionary represents a JSON object.
+    ///
+    /// - Returns: An array of dictionaries `[String: Any]` if the parsing is successful, otherwise `nil`.
+    /// - Throws: An error if the JSON deserialization fails.
+    ///
+    /// Example usage:
+    /// ```swift
+    /// let dictionaries = try getDictionaries()
+    /// ```
+    public func toDictionaries() throws -> [[String: Any]]? {
+        try dataLines.compactMap { try JSONSerialization.jsonObject(with: $0) as? [String: Any] }
+    }
 
     /// Initializes an instance by decoding the given `Data` object into a `String` and
     /// then initializing with the resulting string and encoding.
@@ -37,10 +67,8 @@ public struct JSONLines {
     /// - Throws: An error if any line cannot be encoded into `Data`
     /// or if the conversion of a line to a JSON object fails.
     public init(_ contents: String, encoding: String.Encoding = .utf8) throws {
-        self.lines = try contents
-            .split(separator: "\n")
-            .compactMap { $0.data(using: encoding) }
-            .compactMap { try JSONSerialization.jsonObject(with: $0) as? [String: Any] }
+        self.lines = contents.split(separator: "\n").map { String($0) }
+        self.dataLines = lines.compactMap { $0.data(using: encoding) }
     }
 
     /// Initializes an instance by separating the `String` of given path into lines and
